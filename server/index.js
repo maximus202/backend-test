@@ -1,5 +1,6 @@
 import express from "express";
 import { Database } from "./src/services/database.js";
+import { ReportController } from "./src/controllers/report-controller.js";
 
 /**
  * Use cases:
@@ -89,90 +90,12 @@ async function main() {
 	 * GET /reports/tasks/workers/:workerId
 	 */
 	app.get("/reports/tasks/workers/:workerId?", async (req, res) => {
-		
-		/**
-		 * Get parameters
-		 */
 		const workerId = req.params.workerId || null;
 		const completedTasks = req.query.completedTasks || null;
-
-		/**
-		 * Query database.
-		 */
-		let query = `SELECT t.*,
-				l.name AS location_name,
-				w.id AS worker_id,
-				w.username AS worker_username,
-				lt.time_seconds AS logged_seconds,
-				w.hourly_wage
-				FROM tasks AS t
-				LEFT JOIN logged_time AS lt ON t.id = lt.task_id
-				LEFT JOIN workers AS w ON lt.worker_id = w.id
-				LEFT JOIN locations AS l ON t.location_id = l.id`;
-		const bindParams = [];
-		if (workerId) {
-			query += ` WHERE w.id = ?`;
-			bindParams.push(workerId);
-		}
-		if (completedTasks !== null) {
-			query += ` AND t.completed = ?`;
-			bindParams.push(completedTasks);
-		}
-
-		const rows = await db.query(query, bindParams);
-
-		/**
-		 * Put together tasks object.
-		 */
-		const tasks = {};
-		let totalLaborCost = 0;
-		rows.forEach(row => {
-			/**
-			 * Calculate labor cost.
-			 */
-			if (!row.hourly_wage || !row.logged_seconds)
-			{
-				row.labor_cost = 0;
-				return;
-			}
-
-			row.labor_cost = (row.logged_seconds / 3600) * row.hourly_wage;
-			totalLaborCost += row.labor_cost;
-
-			/**
-			 * If task is not in the object, add it.
-			 */
-			if (!tasks[row.id]) {
-				tasks[row.id] = {
-					task_id: row.id,
-					description: row.description,
-					completed: row.completed,
-					location_id: row.location_id,
-					location_name: row.location_name,
-					worker_id: row.worker_id,
-					worker_username: row.worker_username,
-					hourly_wage: row.hourly_wage,
-					logged_seconds: row.logged_seconds,
-					labor_cost: Number(row.labor_cost.toFixed(2))
-				};
-				return;
-			}
-
-			/**
-			 * Add labor cost and seconds to task totals.
-			 * Labor cost needs to use 2 decimal places.
-			 */
-			tasks[row.id].labor_cost += Number(row.labor_cost.toFixed(2));
-			tasks[row.id].logged_seconds += row.logged_seconds;
-		});
-
-		return res.json({
-			success: true,
-			total_labor_cost: Number(totalLaborCost.toFixed(2)),
-			data: {
-				task_ids: tasks
-			}
-		});
+		const controller = new ReportController();
+		const response = await controller.getTasksByWorker(workerId, completedTasks);
+		console.log(response);
+		res.json(response);
 	});
 	
 	app.listen(port, "0.0.0.0", () => {
