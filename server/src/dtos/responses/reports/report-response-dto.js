@@ -10,15 +10,11 @@ export class ReportResponseDTO {
      * This constructs the response DTO.
      * 
      * @param {bool} success
-     * @param {float} totalLaborCost
-     * @param {array} data
+     * @param {object} data
      * @returns {void}
      */
-    constructor(success, totalLaborCost, data) {
+    constructor(success, data) {
         this.success = success;
-        this.total_labor_cost = totalLaborCost;
-        this.data = {
-            tasks: data
-        };
+        this.data = data;
     }
 }

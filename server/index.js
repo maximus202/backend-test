@@ -89,7 +89,7 @@ async function main() {
 	/**
 	 * GET /reports/tasks/workers/:workerId
 	 */
-	app.get("/reports/tasks/workers/:workerId?", async (req, res) => {
+	app.get("/reports/tasks/workers/:workerId", async (req, res) => {
 		const workerId = req.params.workerId || null;
 		const completedTasks = req.query.completedTasks || null;
 		const controller = new ReportController();
@@ -100,7 +100,7 @@ async function main() {
 	/**
 	 * GET /reports/tasks/locations/:locationId
 	 */
-	app.get("/reports/tasks/locations/:locationId?", async (req, res) => {
+	app.get("/reports/tasks/locations/:locationId", async (req, res) => {
 		const locationId = req.params.locationId || null;
 		const completedTasks = req.query.completedTasks || null;
 		const controller = new ReportController();
