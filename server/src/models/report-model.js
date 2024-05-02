@@ -26,28 +26,35 @@ export class ReportModel {
      * @returns {array}
      */
     async getTasksByWorker(workerId = null, completedTasks = null) {
-        let query = `SELECT t.*,
-        l.name AS location_name,
-        w.id AS worker_id,
-        w.username AS worker_username,
-        lt.time_seconds AS logged_seconds,
-        w.hourly_wage
-        FROM tasks AS t
-        LEFT JOIN logged_time AS lt ON t.id = lt.task_id
-        LEFT JOIN workers AS w ON lt.worker_id = w.id
-        LEFT JOIN locations AS l ON t.location_id = l.id`;
+        let sql = `SELECT t.*,
+            l.name AS location_name,
+            w.id AS worker_id,
+            w.username AS worker_username,
+            lt.time_seconds AS logged_seconds,
+            w.hourly_wage
+            FROM tasks AS t
+            LEFT JOIN logged_time AS lt ON t.id = lt.task_id
+            LEFT JOIN workers AS w ON lt.worker_id = w.id
+            LEFT JOIN locations AS l ON t.location_id = l.id`;
 
+        /**
+         * If workerId is set, add it to the query.
+         */
         const bindParams = [];
         if (workerId) {
-            query += ` WHERE w.id = ?`;
+            sql += ` WHERE w.id = ?`;
             bindParams.push(workerId);
         }
+
+        /**
+         * If completedTasks is set, add it to the query.
+         */
         if (completedTasks !== null) {
-            query += ` AND t.completed = ?`;
+            sql += ` AND t.completed = ?`;
             bindParams.push(completedTasks);
         }
 
-        return await this.database.query(query, bindParams);
+        return await this.database.query(sql, bindParams);
     }
 
     /**
@@ -58,28 +65,35 @@ export class ReportModel {
      * @returns {array}
      */
     async getTasksByLocation(locationId = null, completedTasks = null) {
-        let query = `SELECT t.*,
-        l.name AS location_name,
-        w.id AS worker_id,
-        w.username AS worker_username,
-        lt.time_seconds AS logged_seconds,
-        w.hourly_wage
-        FROM tasks AS t
-        LEFT JOIN logged_time AS lt ON t.id = lt.task_id
-        LEFT JOIN workers AS w ON lt.worker_id = w.id
-        LEFT JOIN locations AS l ON t.location_id = l.id
-        WHERE lt.id IS NOT NULL`;
+        let sql = `SELECT t.*,
+            l.name AS location_name,
+            w.id AS worker_id,
+            w.username AS worker_username,
+            lt.time_seconds AS logged_seconds,
+            w.hourly_wage
+            FROM tasks AS t
+            LEFT JOIN logged_time AS lt ON t.id = lt.task_id
+            LEFT JOIN workers AS w ON lt.worker_id = w.id
+            LEFT JOIN locations AS l ON t.location_id = l.id
+            WHERE lt.id IS NOT NULL`;
 
         const bindParams = [];
+        /**
+         * If locationId is set, add it to the query.
+         */
         if (locationId) {
-            query += ` AND l.id = ?`;
+            sql += ` AND l.id = ?`;
             bindParams.push(locationId);
         }
+
+        /**
+         * If completedTasks is set, add it to the query.
+         */
         if (completedTasks !== null) {
-            query += ` AND t.completed = ?`;
+            sql += ` AND t.completed = ?`;
             bindParams.push(completedTasks);
         }
 
-        return await this.database.query(query, bindParams);
+        return await this.database.query(sql, bindParams);
     }
 }

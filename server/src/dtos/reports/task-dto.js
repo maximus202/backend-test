@@ -1,3 +1,5 @@
+import { FormatCurrency } from "../../../utils/format-currency.js";
+
 /**
  * TaskDTO
  * 
@@ -22,6 +24,6 @@ export class TaskDTO {
         this.worker_username = task.worker_username;
         this.logged_seconds = task.logged_seconds;
         this.hourly_wage = task.hourly_wage;
-        this.labor_cost = Number(task.labor_cost.toFixed(2))
+        this.labor_cost = FormatCurrency(task.labor_cost);
     }
 }
