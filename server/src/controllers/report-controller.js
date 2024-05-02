@@ -27,12 +27,13 @@ export class ReportController {
      * @returns {object}
      */
     async getTasksByWorker(workerId = null, completedTasks = null) {
-        /**
-		 * Query database.
-		 */
-		const rows = await this.model.getTasksByWorker(workerId, completedTasks);
-        const report = TaskReport.create(rows);
-        return new ReportResponseDTO(true, report);
+        try {
+            const rows = await this.model.getTasksByWorker(workerId, completedTasks);
+            const report = TaskReport.create(rows);
+            return new ReportResponseDTO(true, report);
+        } catch (error) {
+            return new ReportResponseDTO(false, null);
+        }
     }
 
     /**
@@ -42,8 +43,12 @@ export class ReportController {
      * @param {boolean} completedTasks 
      */
     async getTasksByLocation(locationId = null, completedTasks = null) {
-		const rows = await this.model.getTasksByLocation(locationId, completedTasks);
-        const report = TaskReport.create(rows);
-        return new ReportResponseDTO(true, report);
-    };
-}
+        try {
+            const rows = await this.model.getTasksByLocation(locationId, completedTasks);
+            const report = TaskReport.create(rows);
+            return new ReportResponseDTO(true, report);
+        } catch (error) {
+            return new ReportResponseDTO(false, null);
+        }
+    }
+};

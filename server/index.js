@@ -89,28 +89,60 @@ async function main() {
 	/**
 	 * GET /reports/tasks/workers/:workerId
 	 */
-	app.get("/reports/tasks/workers/:workerId", async (req, res) => {
-		const workerId = req.params.workerId || null;
-		const completedTasks = req.query.completedTasks || null;
-		const controller = new ReportController();
-		const response = await controller.getTasksByWorker(workerId, completedTasks);
-		res.json(response);
-	});
+	app.get("/reports/tasks/workers/:workerId", handleGetTasksByWorker);
 
 	/**
 	 * GET /reports/tasks/locations/:locationId
 	 */
-	app.get("/reports/tasks/locations/:locationId", async (req, res) => {
-		const locationId = req.params.locationId || null;
-		const completedTasks = req.query.completedTasks || null;
-		const controller = new ReportController();
-		const response = await controller.getTasksByLocation(locationId, completedTasks);
-		res.json(response);
-	});
+	app.get("/reports/tasks/locations/:locationId", handleGetTasksByLocation);
 	
 	app.listen(port, "0.0.0.0", () => {
 		console.info(`App listening on ${port}.`);
 	});
-}
+};
+
+/**
+ * This handles the get tasks by worker.
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {function}
+ */
+async function handleGetTasksByWorker(req, res) {
+	const workerId = req.params.workerId || null;
+	const completedTasks = req.query.completedTasks || null;
+	try {
+		const controller = new ReportController();
+		const response = await controller.getTasksByWorker(workerId, completedTasks);
+		res.json(response);
+	} catch (error) {
+		res.json({
+			success: false, 
+			error: error.message 
+		});
+	}
+};
+
+/**
+ * This handles the get tasks by location.
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {function}
+ */
+async function handleGetTasksByLocation(req, res) {
+	const locationId = req.params.locationId || null;
+	const completedTasks = req.query.completedTasks || null;
+	try {
+		const controller = new ReportController();
+		const response = await controller.getTasksByLocation(locationId, completedTasks);
+		res.json(response);
+	} catch (error) {
+		res.json({ 
+			success: false, 
+			error: error.message 
+		});
+	}
+};
 
 await main();

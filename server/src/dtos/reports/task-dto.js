@@ -26,4 +26,4 @@ export class TaskDTO {
         this.hourly_wage = task.hourly_wage;
         this.labor_cost = FormatCurrency(task.labor_cost);
     }
-}
+};

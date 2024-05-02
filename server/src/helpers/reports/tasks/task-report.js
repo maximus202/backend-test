@@ -66,4 +66,4 @@ export const TaskReport = {
         const SECONDS_IN_HOUR = 3600;
         return (task.logged_seconds / SECONDS_IN_HOUR) * task.hourly_wage;
     }
-}
+};

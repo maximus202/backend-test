@@ -55,7 +55,7 @@ export class ReportModel {
         }
 
         return await this.database.query(sql, bindParams);
-    }
+    };
 
     /**
      * This gets the tasks by location.
@@ -95,5 +95,5 @@ export class ReportModel {
         }
 
         return await this.database.query(sql, bindParams);
-    }
-}
+    };
+};

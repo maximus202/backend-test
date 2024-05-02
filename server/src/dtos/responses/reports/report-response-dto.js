@@ -10,11 +10,11 @@ export class ReportResponseDTO {
      * This constructs the response DTO.
      * 
      * @param {bool} success
-     * @param {object} data
+     * @param {mixed} data
      * @returns {void}
      */
     constructor(success, data) {
         this.success = success;
         this.data = data;
     }
-}
+};
