@@ -54,13 +54,24 @@ import { Database } from "./src/services/database.js";
 
 /**
  * This holds the express app instance.
+ * 
+ * @type {Express}
  */
 const app = express();
 
 /**
  * This holds the port.
+ * 
+ * @type {number}
  */
 const port = 3000;
+
+/**
+ * This holds the database instance.
+ * 
+ * @type {Database}
+ */
+const db = new Database();
 
 /**
  * This sets up the call.
@@ -68,7 +79,6 @@ const port = 3000;
  * @returns {void}
  */
 async function main() {
-	const db = new Database();
 	await db.connect();
 
 	app.get("/", (req, res) => {
