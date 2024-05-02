@@ -41,7 +41,7 @@ INSERT INTO workers (id, username, hourly_wage) VALUES
 (3, 'mike_jackson', 20.00);
 
 INSERT INTO tasks (id, description, completed, location_id) VALUES
-(1, 'Stock inventory', 0, 1),
+(1, 'Stock inventory', 1, 1),
 (2, 'Pack orders', 0, 2),
 (3, 'Fix Sink', 0, 2),
 (4, 'Change light bulbs', 1, 2),
