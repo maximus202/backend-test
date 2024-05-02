@@ -96,6 +96,17 @@ async function main() {
 		const response = await controller.getTasksByWorker(workerId, completedTasks);
 		res.json(response);
 	});
+
+	/**
+	 * GET /reports/tasks/locations/:locationId
+	 */
+	app.get("/reports/tasks/locations/:locationId?", async (req, res) => {
+		const locationId = req.params.locationId || null;
+		const completedTasks = req.query.completedTasks || null;
+		const controller = new ReportController();
+		const response = await controller.getTasksByLocation(locationId, completedTasks);
+		res.json(response);
+	});
 	
 	app.listen(port, "0.0.0.0", () => {
 		console.info(`App listening on ${port}.`);

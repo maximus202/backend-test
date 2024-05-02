@@ -30,10 +30,10 @@ CREATE TABLE logged_time (
   FOREIGN KEY(worker_id) REFERENCES workers(id) ON DELETE CASCADE
 ) ENGINE=INNODB;
 
-INSERT INTO locations (name) VALUES
-('Warehouse A'),
-('Warehouse B'),
-('Office');
+INSERT INTO locations (id, name) VALUES
+(1, 'Warehouse A'),
+(2, 'Warehouse B'),
+(3, 'Office');
 
 INSERT INTO workers (id, username, hourly_wage) VALUES
 (1, 'john_doe', 15.50),
@@ -43,13 +43,19 @@ INSERT INTO workers (id, username, hourly_wage) VALUES
 INSERT INTO tasks (id, description, completed, location_id) VALUES
 (1, 'Stock inventory', 0, 1),
 (2, 'Pack orders', 0, 2),
-(3, 'Clean office', 1, 3),
-(4, 'Write Letters', 1, 1),
-(5, 'Pack orders', 1, 1),
-(6, 'Clean office', 0, 3);
+(3, 'Fix Sink', 0, 2),
+(4, 'Change light bulbs', 1, 2),
+(5, 'Clean office', 1, 3),
+(6, 'Write Letters', 1, 1),
+(7, 'Pack orders', 1, 1),
+(8, 'Clean office', 0, 3);
 
 INSERT INTO logged_time (time_seconds, task_id, worker_id) VALUES
 (3600, 1, 1),
 (1800, 1, 1),
+(7200, 3, 1),
 (2700, 2, 1),
-(7200, 3, 1);
+(7200, 2, 1),
+(7324, 3, 2),
+(2443, 3, 2),
+(2443, 4, 2);

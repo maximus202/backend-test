@@ -66,6 +66,50 @@ export class ReportController {
     }
 
     /**
+     * This gets the tasks by location report.
+     * 
+     * @param {int} locationId 
+     * @param {boolean} completedTasks 
+     */
+    async getTasksByLocation(locationId = null, completedTasks = null) {
+        /**
+		 * Query database.
+		 */
+		const rows = await this.model.getTasksByLocation(locationId, completedTasks);
+
+		/**
+		 * Put together tasks object.
+		 */
+		const tasks = {};
+		let totalLaborCost = 0;
+		rows.forEach(row => {
+			/**
+			 * Calculate labor cost.
+			 */
+            row.labor_cost = this.calculateLaborCost(row);
+			totalLaborCost += row.labor_cost;
+
+			/**
+			 * If task is not in the object, add it.
+			 */
+			if (!tasks[row.id]) {
+				tasks[row.id] = new TaskDTO(row);
+				return;
+			}
+
+			/**
+			 * Add labor cost and seconds to task totals.
+			 * Labor cost needs to use 2 decimal places.
+			 */
+			tasks[row.id].labor_cost += FormatCurrency(row.labor_cost);
+			tasks[row.id].logged_seconds += row.logged_seconds;
+		});
+
+        totalLaborCost = FormatCurrency(totalLaborCost);
+        return new ReportResponseDTO(true, totalLaborCost, tasks);
+    };
+
+    /**
      * This calculates the labor cost.
      * 
      * @param {object} task 
