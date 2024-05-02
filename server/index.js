@@ -63,7 +63,7 @@ const app = express();
 /**
  * This holds the port.
  * 
- * @type {number}
+ * @type {int}
  */
 const port = 3000;
 
@@ -94,7 +94,6 @@ async function main() {
 		const completedTasks = req.query.completedTasks || null;
 		const controller = new ReportController();
 		const response = await controller.getTasksByWorker(workerId, completedTasks);
-		console.log(response);
 		res.json(response);
 	});
 	
