@@ -16,7 +16,7 @@ export class ReportResponseDTO {
      */
     constructor(success, totalLaborCost, data) {
         this.success = success;
-        this.totalLaborCost = totalLaborCost;
+        this.total_labor_cost = totalLaborCost;
         this.data = {
             tasks: data
         };
