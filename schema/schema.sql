@@ -53,9 +53,14 @@ INSERT INTO tasks (id, description, completed, location_id) VALUES
 INSERT INTO logged_time (time_seconds, task_id, worker_id) VALUES
 (3600, 1, 1),
 (1800, 1, 1),
+(2213, 1, 1),
 (7200, 3, 1),
+(1332, 3, 2),
 (2700, 2, 1),
 (7200, 2, 1),
+(899, 2, 1),
+(3522, 2, 3),
 (7324, 3, 2),
 (2443, 3, 2),
-(2443, 4, 2);
+(2443, 1, 2),
+(1883, 1, 3);

@@ -40,7 +40,8 @@ export const TaskReport = {
 			 * Add labor cost and seconds to task totals.
 			 * Labor cost needs to use 2 decimal places.
 			 */
-			tasks[row.id].labor_cost += FormatCurrency(row.labor_cost);
+            const newLaborCost = tasks[row.id].labor_cost + row.labor_cost;
+			tasks[row.id].labor_cost = FormatCurrency(newLaborCost);
 			tasks[row.id].logged_seconds += row.logged_seconds;
 		});
 

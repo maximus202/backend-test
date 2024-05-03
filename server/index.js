@@ -16,29 +16,33 @@ import { ReportController } from "./src/controllers/report-controller.js";
  */
 
 /**
- * API Call Mockups
+ * API Call/Response Examples
  * 
- * GET /reports/tasks/workers/:workerId
+ * GET /reports/tasks/workers/:workerId?completedTasks=1&locationId=1
  * Response:
  * 	{
  * 		success: true,
  * 		data: {
- * 			totalLaborCost: "1000.00",
- * 			tasks: [
- * 				{
+ *  		total_labor_cost: "1000.00",
+ * 			tasks: {
+ * 				1: {
  * 					taskId: 1,
  * 					total: "250.00"
- * 				}
- * 			]
+ * 				},
+ * 				2: {
+ * 					taskId: 2,
+ * 					total: "250.00"
+ *              }
+ * 			}
  * 		}
  * 	}
  * 
- * GET /reports/tasks/locations/:locationId
+ * GET /reports/tasks/locations/:locationId?completedTasks=1&workerId=1
  * Response:
  *  {
  *  	success: true,
- * 		totalLaborCost: "1000.00",
  * 		data: {
+ *  		total_labor_cost: "1000.00",
  * 			tasks: {
  * 				1: {
  * 					taskId: 1,
@@ -111,9 +115,11 @@ async function main() {
 async function handleGetTasksByWorker(req, res) {
 	const workerId = req.params.workerId || null;
 	const completedTasks = req.query.completedTasks || null;
+	const locationId = req.query.locationId || null;
+
 	try {
 		const controller = new ReportController();
-		const response = await controller.getTasksByWorker(workerId, completedTasks);
+		const response = await controller.getTaskCosts(workerId, completedTasks, locationId);
 		res.json(response);
 	} catch (error) {
 		res.json({
@@ -133,9 +139,11 @@ async function handleGetTasksByWorker(req, res) {
 async function handleGetTasksByLocation(req, res) {
 	const locationId = req.params.locationId || null;
 	const completedTasks = req.query.completedTasks || null;
+	const workerId = req.query.workerId || null;
+
 	try {
 		const controller = new ReportController();
-		const response = await controller.getTasksByLocation(locationId, completedTasks);
+		const response = await controller.getTaskCosts(locationId, completedTasks, workerId);
 		res.json(response);
 	} catch (error) {
 		res.json({ 
