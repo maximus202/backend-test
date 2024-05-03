@@ -41,7 +41,7 @@ export class Database {
 	 * 
 	 * @param {string} query 
 	 * @param {array} params 
-	 * @returns {array}
+	 * @returns {object}
 	 */
 	async query(query, params = []) {
 		const conn = await this.db.getConnection();

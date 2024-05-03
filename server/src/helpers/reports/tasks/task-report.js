@@ -55,7 +55,7 @@ export const TaskReport = {
      * This calculates the labor cost.
      * 
      * @param {object} task 
-     * @returns {int}
+     * @returns {float}
      */
     calculateLaborCost(task) {
         if (!task.hourly_wage || !task.logged_seconds)

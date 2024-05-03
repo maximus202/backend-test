@@ -27,43 +27,7 @@ export class ReportController {
      * @param {int} locationId
      * @returns {object}
      */
-        async getTaskCosts(workerId = null, completedTasks = null, locationId = null) {
-            try {
-                const rows = await this.model.getTaskCosts(workerId, locationId, completedTasks);
-                const report = TaskReport.create(rows);
-                return new ReportResponseDTO(true, report);
-            } catch (error) {
-                return new ReportResponseDTO(false, null);
-            }
-        }
-    
-    /**
-     * This gets the tasks by worker report.
-     * 
-     * @param {int} workerId
-     * @param {boolean} completedTasks
-     * @param {int} locationId
-     * @returns {object}
-     */
-    async getTasksByWorker(workerId = null, completedTasks = null, locationId = null) {
-        try {
-            const rows = await this.model.getTaskCosts(workerId, locationId, completedTasks);
-            const report = TaskReport.create(rows);
-            return new ReportResponseDTO(true, report);
-        } catch (error) {
-            return new ReportResponseDTO(false, null);
-        }
-    }
-
-    /**
-     * This gets the tasks by location report.
-     * 
-     * @param {int} locationId 
-     * @param {boolean} completedTasks 
-     * @param {int} workerId
-     * @returns {object}
-     */
-    async getTasksByLocation(locationId = null, completedTasks = null, workerId = null) {
+    async getTaskCosts(workerId = null, completedTasks = null, locationId = null) {
         try {
             const rows = await this.model.getTaskCosts(workerId, locationId, completedTasks);
             const report = TaskReport.create(rows);

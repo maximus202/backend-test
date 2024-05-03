@@ -24,6 +24,7 @@ export class ReportModel {
      * @param {int} workerId 
      * @param {int} locationId 
      * @param {bool} completedTasks 
+     * @returns {object}
      */
     async getTaskCosts(workerId = null, locationId = null, completedTasks = null) {
         let sql = `SELECT t.*,
